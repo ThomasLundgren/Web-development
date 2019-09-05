@@ -2,8 +2,7 @@ var DETAIL_IMAGE_SELECTOR = '[data-image-role="target"]';
 var DETAIL_TITLE_SELECTOR = '[data-image-role="title"]';
 var THUMBNAIL_LINK_SELECTOR = '[data-image-role="trigger"]';
 var URL_ATTRIBUTE = 'data-image-url';
-var TACOCAT_URL = 'https://media.giphy.com/media/olAik8MhYOB9K/giphy.gif';
-//'https://d3qdvvkm3r2z1i.cloudfront.net/media/catalog/product/cache/1/image/1800x/6b9ffbf72458f4fd2d3cb995d92e8889/t/a/tacocat_newthumb.png';
+var RANDOM_URL = 'https://media.giphy.com/media/olAik8MhYOB9K/giphy.gif';
 var thumbnails = getThumbnailsArray();
 
 function initializeEvents() {
@@ -18,7 +17,7 @@ function addThumbnailClickHandler(thumbnail) {
   thumbnail.addEventListener('click', function(event) {
     event.preventDefault();
     setDetailsFromThumbnail(thumbnail);
-    if (event.currentTarget.getAttribute(URL_ATTRIBUTE) == TACOCAT_URL) {
+    if (event.currentTarget.getAttribute(URL_ATTRIBUTE) == RANDOM_URL) {
       thumbnails.forEach(resetUrl);
       setRandom();
     }
@@ -33,12 +32,14 @@ function getThumbnailsArray() {
 }
 
 function setRandom() {
+  'use strict'
   var randomIndex = Math.floor(Math.random() * thumbnails.length);
   thumbnails[randomIndex].setAttribute(URL_ATTRIBUTE,
-    TACOCAT_URL);
+    RANDOM_URL);
 }
 
 function resetUrl(thumbnail) {
+  'use strict'
   thumbnail.setAttribute(URL_ATTRIBUTE, thumbnail.getAttribute('href'));
 }
 
