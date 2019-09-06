@@ -113,6 +113,19 @@ a {
   text-shadow: rgba(0, 0, 0, 0.9) 1px 2px 9px;
 }
 
+.hidden-detail .detail-image-container {
+  display: none;
+}
+
+.hidden-detail .thumbnail-list {
+  align-items: center;
+  flex-direction: column;
+}
+
+.hidden-detail .thumbnail-item {
+  max-width: 80%;
+}
+
 @media all and (orientation: landscape) {
   .main-content {
     flex-direction: row;

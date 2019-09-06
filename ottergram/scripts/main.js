@@ -1,11 +1,14 @@
-var DETAIL_IMAGE_SELECTOR = '[data-image-role="target"]';
-var DETAIL_TITLE_SELECTOR = '[data-image-role="title"]';
-var THUMBNAIL_LINK_SELECTOR = '[data-image-role="trigger"]';
+const DETAIL_IMAGE_SELECTOR = '[data-image-role="target"]';
+const DETAIL_TITLE_SELECTOR = '[data-image-role="title"]';
+const THUMBNAIL_LINK_SELECTOR = '[data-image-role="trigger"]';
+const HIDDEN_DETAIL_CLASS = 'hidden-detail';
+const ESC_KEY = 27;
 
 function initializeEvents() {
   'use strict';
   var thumbnails = getThumbnailsArray();
   thumbnails.forEach(addThumbnailClickHandler);
+  addKeyPressHandler();
 }
 
 function addThumbnailClickHandler(thumbnail) {
@@ -13,7 +16,28 @@ function addThumbnailClickHandler(thumbnail) {
   thumbnail.addEventListener('click', function(event) {
     event.preventDefault();
     setDetailsFromThumbnail(thumbnail);
+    showDetails();
   });
+}
+
+function addKeyPressHandler() {
+  'use strict';
+  document.body.addEventListener('keyup', function(event) {
+    event.preventDefault();
+    if (event.keyCode === ESC_KEY) {
+      hideDetails();
+    }
+  });
+}
+
+function hideDetails() {
+  'use strict';
+  document.body.classList.add(HIDDEN_DETAIL_CLASS);
+}
+
+function showDetails() {
+  'use strict';
+  document.body.classList.remove(HIDDEN_DETAIL_CLASS);
 }
 
 function getThumbnailsArray() {
