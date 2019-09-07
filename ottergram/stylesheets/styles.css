@@ -58,7 +58,7 @@ a {
   flex: 0 1 auto;
   order: 2;
   justify-content: space-between;
-  padding: 0;
+  padding: 20px 0;
   list-style: none;
   white-space: nowrap;
   overflow-x: auto;
@@ -70,6 +70,11 @@ a {
   max-width: 120px;
   border: 1 px solid rgb(100%, 100%, 100%);
   border: 1px solid rgba(100%, 100%, 100%, 0.8);
+  transition: transform 133ms ease-in-out;
+}
+
+.thumbnail-item:hover {
+  transform: scale(1.2);
 }
 
 .thumbnail-image {
@@ -96,6 +101,12 @@ a {
 .detail-image-frame {
   position: relative;
   text-align: center;
+  transition: transform 333ms cubic-bezier(.91,.11,.9,.06);
+}
+
+.is-tiny {
+  transform: scale(0.001);
+  transition: transform 0ms;
 }
 
 .detail-image {
@@ -136,6 +147,7 @@ a {
     flex-direction: column;
     order: 0;
     margin-left: 20px;
+    padding: 0 35px;
   }
 
   .thumbnail-item {
