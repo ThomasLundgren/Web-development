@@ -2,25 +2,30 @@
 (function (window) {
   'use strict';
   var App = window.App || {};
+  /*
+    Silver challenge: Making data private
+    Att deklarera variabeln data på detta vis innebär
+    att alla instanser av App.DataStore använder samma
+    data-instans.
+  */
+  var data = {};
 
-  function DataStore() {
-    this.data = {};
-  }
+  function DataStore() {}
 
   DataStore.prototype.add = function (key, val) {
-    this.data[key] = val
+    data[key] = val
   };
 
   DataStore.prototype.get = function (key) {
-    return this.data[key];
+    return data[key];
   }
 
   DataStore.prototype.getAll = function () {
-    return this.data;
+    return data;
   }
 
   DataStore.prototype.remove = function (key) {
-    delete this.data[key];
+    delete data[key];
   }
 
   App.DataStore = DataStore;
