@@ -57,8 +57,8 @@
             </select>
           </div>
           <div class="form-group">
-            <label for="strengthLevel">Caffeine Rating</label>
-            <input class="form-control-range" name="strength" id="strengthLevel" type="range" value="30">
+            <label for="strengthLevel" id="rangeLabel" style="color: rgb(255, 255, 0)">Caffeine Rating</label>
+            <input data-coffee-order="slider" class="form-control-range" name="strength" id="strengthLevel" type="range" value="50">
           </div>
           <button type="submit" class="btn btn-default">Submit</button>
           <button type="reset" class="btn btn-default">Reset</button>
@@ -68,6 +68,7 @@
   </section>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
   <script src="scripts/formhandler.js" charset="utf-8"></script>
+  <script src="scripts/slidehandler.js" charset="utf-8"></script>
   <script src="scripts/datastore.js" charset="utf-8"></script>
   <script src="scripts/truck.js" charset="utf-8"></script>
   <script src="scripts/main.js" charset="utf-8"></script>
