@@ -18,13 +18,34 @@
         this.$formElement.on('submit', function (event) {
             event.preventDefault();
             var data = {};
+
             $(this).serializeArray().forEach(function (item) {
                 data[item.name] = item.value;
                 console.log(item.name + ' is: ' + item.value);
             });
             console.log(data);
-            fn(data);
-            this.reset();
+
+            var achievementList = $('#achievement-list');
+
+            if (data.size === 'coffee-zilla' && data.flavor != ''
+                    && data.strength === '100' && data.achievement == ''
+                    && achievementList.css('display') != 'block') {
+                var modal = $('#achievement-modal');
+                modal.show();
+                $('#deny-button').on('click', function (event) {
+                    modal.hide();
+                    fn(data);
+                    this.reset();
+                });
+                $('#confirm-button').on('click', function (event) {
+                    achievementList.css('display', 'block')
+                    modal.hide();
+                });
+            } else {
+                fn(data);
+                this.reset();
+            }
+            achievementList.hide();
             this.elements[0].focus();
         });
     };
