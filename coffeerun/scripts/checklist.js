@@ -8,8 +8,6 @@
             throw new Error('No selector provided');
         }
         this.$element = $(selector);
-        console.log(this.$element);
-        console.log(this);
         if (this.$element.length === 0) {
             throw new Error('Could not find element with selector ' + selector);
         }

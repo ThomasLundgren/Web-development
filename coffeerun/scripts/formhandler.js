@@ -2,6 +2,7 @@
     'use strict';
     var App = window.App || {};
     var $ = window.jQuery;
+    var superUsers = new Set();
 
     function FormHandler(selector) {
         if (!selector) {
@@ -24,31 +25,42 @@
 
             $(this).serializeArray().forEach(function (item) {
                 data[item.name] = item.value;
-                console.log(item.name + ' is: ' + item.value);
             });
             console.log(data);
 
-            var achievementList = $('#achievement-list');
+            var $achievementList = $('#achievement-list');
+
+            if (data.achievement != '') {
+                superUsers.delete(data.emailAddress);
+            }
 
             if (data.size === 'coffee-zilla' && data.flavor != ''
-                    && data.strength === '100' && data.achievement === ''
-                    && achievementList.css('display') != 'block') {
-                var modal = $('#achievement-modal');
-                modal.show();
+                    && data.strength === '100' && data.emailAddress != '') {
+
+                var $modal = $('#achievement-modal');
+                $modal.show();
                 $('#deny-button').on('click', function (event) {
-                    modal.hide();
-                    fn(data);
-                    this.reset();
+                    $modal.hide();
                 });
                 $('#confirm-button').on('click', function (event) {
-                    achievementList.css('display', 'block');
-                    modal.hide();
+                    superUsers.add(data.emailAddress);
+                    let $emailField = $('#emailInput');
+                    $('#emailInput').blur(function () {
+                        if (!superUsers.has(this.value)) {
+                            $achievementList.css('display', 'none');
+                        } else {
+                            $achievementList.css('display', 'block');
+                        }
+                    });
+                    $emailField.attr('value', data.emailAddress);
+                    $achievementList.css('display', 'block');
+                    $modal.hide();
                 });
-            } else {
-                fn(data);
-                this.reset();
             }
-            achievementList.hide();
+            fn(data);
+            this.reset();
+            $('#rangeLabel').css('color', 'rgb(255, 255, 0)');
+            $achievementList.hide();
             this.elements[0].focus();
         });
     };
