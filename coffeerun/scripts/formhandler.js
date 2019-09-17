@@ -11,6 +11,9 @@
         if (this.$formElement.length === 0) {
             throw new Error('Could not find element with selector: ' + selector);
         }
+        $('#resetButton').on('click', function (event) {
+            $('#rangeLabel').css('color', 'rgb(255, 255, 0)');
+        });
     }
 
     FormHandler.prototype.addSubmitHandler = function (fn) {
@@ -28,7 +31,7 @@
             var achievementList = $('#achievement-list');
 
             if (data.size === 'coffee-zilla' && data.flavor != ''
-                    && data.strength === '100' && data.achievement == ''
+                    && data.strength === '100' && data.achievement === ''
                     && achievementList.css('display') != 'block') {
                 var modal = $('#achievement-modal');
                 modal.show();
@@ -38,7 +41,7 @@
                     this.reset();
                 });
                 $('#confirm-button').on('click', function (event) {
-                    achievementList.css('display', 'block')
+                    achievementList.css('display', 'block');
                     modal.hide();
                 });
             } else {
@@ -52,5 +55,4 @@
 
     App.FormHandler = FormHandler;
     window.App = App;
-
 })(window);

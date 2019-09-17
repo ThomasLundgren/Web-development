@@ -7,14 +7,14 @@
         if (!selector) {
             throw new Error('No selector provided!');
         }
-        this.$formElement = $(selector);
-        if (this.$formElement.length === 0) {
+        this.$slider = $(selector);
+        if (this.$slider.length === 0) {
             throw new Error('Could not find element with selector: ' + selector);
         }
     }
 
     SlideHandler.prototype.addSlideHandler = function () {
-        this.$formElement.on('change', function (event) {
+        this.$slider.on('input', function (event) {
             event.preventDefault();
             let value = this.value;
             let scaledValue = 0;
