@@ -6,6 +6,7 @@ const ws = new WebSocketServer({
 });
 const messages = [];
 const authUsers = new Set();
+const nonAuthUsers = new Set();
 // GOLD CHALLENGE: Chat Bot
 const chatBot = require('./chatbot');
 chatBot(ws);
@@ -15,18 +16,20 @@ ws.on('connection', socket => {
     // SILVER CHALLENGE: Speakeasy
     socket.on('message', data => {
         console.log('Message received: ' + data);
-        if (data === 'Swordfish') {
+        if (data === 'Swordfish' && !authUsers.has(socket)) {
+            if (nonAuthUsers.has(socket)) {
+                nonAuthUsers.delete(socket);
+            }
             authUsers.add(socket);
             socket.send("Access granted. Welcome to the speakeasy!")
+            messages.forEach(msg => socket.send(msg));
         }
         if (authUsers.has(socket)) {
-            messages.forEach(msg => socket.send(msg));
             messages.push(data);
 
             ws.clients.forEach(clientSocket => {
                 if (authUsers.has(clientSocket)) {
-                    clientSocket.send(data); /* Comment this line before
-                    activating Bronze challenge
+                    clientSocket.send(data); /* Comment this line before activating Bronze challenge
                     BRONZE CHALLENGE: Am I Repeating Myself?
                      for (i = 0; i < messages.length; i++) {
                          clientSocket.send(data);
@@ -35,7 +38,14 @@ ws.on('connection', socket => {
                 }
             });
         } else {
-            socket.send("Hmm... There is something fishy going on here. Something swordy, too...");
+            /*
+                User who haven't entered the password are talking amongst
+                themselves.
+            */
+            if (!nonAuthUsers.has(socket)) {
+                nonAuthUsers.add(socket);
+            }
+            nonAuthUsers.forEach(user => user.send(data));
         }
 
     });

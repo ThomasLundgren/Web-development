@@ -6,12 +6,33 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node index.js",
-    "dev": "nodemon index.js"
+    "dev": "nodemon index.js",
+    "build": "browserify -d app/scripts/src/main.js -o app/scripts/dist/main.js",
+    "watch": "watchify -v -d app/scripts/src/main.js -o app/scripts/dist/main.js"
+  },
+  "browserify": {
+    "transform": [
+      [
+        "babelify",
+        {
+          "presets": [
+            "es2015"
+          ],
+          "sourceMap": true
+        }
+      ]
+    ]
   },
   "author": "Thomas Lundgren",
   "license": "ISC",
   "devDependencies": {
-    "nodemon": "^1.19.3"
+    "babel-core": "^6.26.3",
+    "babel-preset-es2015": "^6.24.1",
+    "babelify": "^8.0.0",
+    "browserify": "^16.5.0",
+    "jquery": "^3.4.1",
+    "nodemon": "^1.19.3",
+    "watchify": "^3.11.1"
   },
   "dependencies": {
     "mime": "^2.4.4",

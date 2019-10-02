@@ -20,6 +20,9 @@ const connectChatBot = server => {
 };
 
 const parseMessage = (msg, socket, connSocket) => {
+    /*
+        The chat bot will only talk to users who have entered the password.
+    */
     if (msg === 'Swordfish') {
         if (!auth) {
             socket.send('Swordfish');
@@ -42,7 +45,7 @@ const parseMessage = (msg, socket, connSocket) => {
 
 const getInfoMessage = () => {
     return "Hi! I'm Chat Bot Charlie!\n"
-        + "Address me with @Charlie. To see a list of questions that i might"
+        + "Address me with @Charlie. To see a list of questions that i might "
         + "be able to answer, type @Charlie -q";
 };
 
