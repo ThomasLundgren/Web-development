@@ -21,6 +21,11 @@ class ChatApp {
         this.chatList = new ChatList(LIST_SELECTOR, username);
         socket.init('ws://localhost:3001');
         socket.registerOpenHandler(() => {
+            if (messageStore.get()) {
+                messageStore.get().forEach(msg => {
+                    socket.sendMessage(msg);
+                });
+            }
             this.chatForm.init(data => {
                 let message = new ChatMessage({message: data});
                 console.log("Data in this.chatform.init: " + data);
@@ -29,11 +34,9 @@ class ChatApp {
             this.chatList.init();
         });
         socket.registerMessageHandler((data) => {
-            console.log(data);
             let message = new ChatMessage(data);
-            console.log(message.serialize());
             this.chatList.drawMessage(message.serialize());
-            messageStore.addMessage(message.serialize());
+            messageStore.set(message.serialize());
         });
     }
 }

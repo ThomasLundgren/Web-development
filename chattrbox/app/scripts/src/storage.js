@@ -23,14 +23,18 @@ export class MessageStore extends Store {
     constructor(key) {
         super(localStorage);
         this.key = key;
+        this.numMessages = 0;
     }
 
-    addMessage(message) {
-        let messages = super.get() || "";
-        console.log("MessageStore | object in localStorage: " + JSON.stringify(messages));
-        let messagesStr = messages + JSON.stringify(message);
-        console.log("MessageStore | object in localStorage: " + messagesStr);
-        super.set(messagesStr);
+    set(message) {
+        let messages = JSON.parse(super.get()) || [];
+        messages.push(message);
+        super.set(JSON.stringify(messages));
+    }
+
+    get() {
+        console.log(JSON.parse(super.get()));
+        return JSON.parse(super.get());
     }
 
 }
