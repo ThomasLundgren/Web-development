@@ -29,7 +29,7 @@ class ChatApp {
 
 class ChatMessage {
     constructor(data) {
-        var {message: m, user: u = 'wonderwoman', timestamp: t = (new Date()).getTime()} = data;
+        var {message: m, user: u = 'Batman', timestamp: t = (new Date()).getTime()} = data;
         this.message = m;
         this.user = u;
         this.timestamp = t;

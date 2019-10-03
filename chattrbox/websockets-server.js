@@ -6,7 +6,7 @@ const ws = new WebSocketServer({
 });
 const messages = [];
 const authUsers = new Set();
-const nonAuthUsers = new Set();
+const unauthUsers = new Set();
 // GOLD CHALLENGE: Chat Bot
 const chatBot = require('./chatbot');
 chatBot(ws);
@@ -16,9 +16,9 @@ ws.on('connection', socket => {
     // SILVER CHALLENGE: Speakeasy
     socket.on('message', data => {
         console.log('Message received: ' + data);
-        if (data === 'Swordfish' && !authUsers.has(socket)) {
-            if (nonAuthUsers.has(socket)) {
-                nonAuthUsers.delete(socket);
+        if (data.includes('Swordfish') && !authUsers.has(socket)) {
+            if (unauthUsers.has(socket)) {
+                unauthUsers.delete(socket);
             }
             authUsers.add(socket);
             socket.send("Access granted. Welcome to the speakeasy!")
@@ -39,13 +39,14 @@ ws.on('connection', socket => {
             });
         } else {
             /*
-                User who haven't entered the password are talking amongst
+                Users who haven't entered the password are talking amongst
                 themselves.
             */
-            if (!nonAuthUsers.has(socket)) {
-                nonAuthUsers.add(socket);
+            if (!unauthUsers.has(socket)) {
+                unauthUsers.add(socket);
             }
-            nonAuthUsers.forEach(user => user.send(data));
+            unauthUsers.forEach(user => user.send(data));
+            console.log(data);
         }
 
     });

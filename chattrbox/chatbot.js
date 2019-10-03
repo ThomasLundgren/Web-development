@@ -1,6 +1,5 @@
 // GOLD CHALLENGE: Chat bot
 const WebSocket = require('ws');
-const name = 'Chat Bot Charlie: ';
 var auth = false;
 const qAndAMap = {
     'age': "I'm 3500 years old",
@@ -20,15 +19,13 @@ const connectChatBot = server => {
 };
 
 const parseMessage = (msg, socket, connSocket) => {
-    /*
-        The chat bot will only talk to users who have entered the password.
-    */
     if (msg === 'Swordfish') {
         if (!auth) {
             socket.send('Swordfish');
             auth = true;
         }
         if (!connectedUsers.has(connSocket)) {
+            // The chat bot will only talk to users who have entered the password.
             connSocket.send(getInfoMessage());
             connectedUsers.add(connSocket);
         }

@@ -20,6 +20,9 @@ function registerMessageHandler(handlerFunction) {
             handlerFunction(data);
         } catch (e) {
             console.log("Exception in registerMessageHandler: " + e);
+            if (typeof data === "string") {
+                handlerFunction(data);
+            }
         }
     }
 }
