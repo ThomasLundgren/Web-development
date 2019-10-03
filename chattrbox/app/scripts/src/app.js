@@ -22,10 +22,10 @@ if (!username) {
     username = promptForUsername();
     userStore.set(username);
 }
-// let chatRoom;
-// while (chatRoom !== 'chat1' && chatRoom !== 'chat2') {
-//     chatRoom = promptForChatRoom();
-// }
+let chatRoom;
+while (chatRoom !== 'chat1' && chatRoom !== 'chat2') {
+    chatRoom = promptForChatRoom();
+}
 
 class ChatApp {
     constructor() {
@@ -74,5 +74,4 @@ class ChatMessage {
     }
 
 }
-
 export default ChatApp;
