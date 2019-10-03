@@ -13,8 +13,12 @@ export function promptForUsername() {
 }
 
 export function promptForChatRoom() {
-    let chatRoom = prompt('Which chat room would you like to join? You may choose between chat1 and chat2.');
-    return chatRoom.toLowerCase();
+    let chatRoom = prompt('Which chat room would you like to join?');
+    if (chatRoom) {
+        return chatRoom.toLowerCase();
+    } else {
+        return null;
+    }
 }
 
 export class ChatForm {

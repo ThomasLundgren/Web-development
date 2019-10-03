@@ -23,7 +23,7 @@ if (!username) {
     userStore.set(username);
 }
 let chatRoom;
-while (chatRoom !== 'chat1' && chatRoom !== 'chat2') {
+while (!chatRoom) {
     chatRoom = promptForChatRoom();
 }
 
@@ -31,24 +31,34 @@ class ChatApp {
     constructor() {
         this.chatForm = new ChatForm(FORM_SELECTOR, INPUT_SELECTOR);
         this.chatList = new ChatList(LIST_SELECTOR, username);
-        // SILVER CHALLENGE
-        if (messageStore.get()) {
-            messageStore.get().forEach(msg => this.chatList.drawMessage(msg));
-        }
         socket.init('ws://localhost:3001');
         socket.registerOpenHandler(() => {
+            if (messageStore.get()) {
+                messageStore.get().forEach(msg => {
+                    if (msg['chatRoom'] === chatRoom) {
+                        this.chatList.drawMessage(msg);
+                    }
+                });
+            }
             this.chatForm.init(data => {
                 let message = new ChatMessage({
-                    message: data
+                    message: data,
+                    chatRoom: chatRoom
                 });
                 socket.sendMessage(message.serialize());
             });
+            let joinMsg = new ChatMessage({
+                message: username + ' joined the chat.',
+                chatRoom: chatRoom
+            });
+            socket.sendMessage(joinMsg.serialize());
             this.chatList.init();
         });
         socket.registerMessageHandler((data) => {
             let message = new ChatMessage(data);
-            this.chatList.drawMessage(message.serialize());
-            // SILVER CHALLENGE
+            // if (message['chatRoom'] === chatRoom) {
+                this.chatList.drawMessage(message.serialize());
+            // }
             messageStore.set(message.serialize());
         });
     }
@@ -58,18 +68,21 @@ class ChatMessage {
     constructor({
         message: m,
         user: u = username,
-        timestamp: t = (new Date()).getTime()
+        timestamp: t = (new Date()).getTime(),
+        chatRoom: c
     }) {
         this.message = m;
         this.user = u;
         this.timestamp = t;
+        this.chatRoom = c;
     }
 
     serialize() {
         return {
             user: this.user,
             message: this.message,
-            timestamp: this.timestamp
+            timestamp: this.timestamp,
+            chatRoom: this.chatRoom
         };
     }
 
