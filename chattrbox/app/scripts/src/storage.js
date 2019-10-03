@@ -18,7 +18,7 @@ export class UserStore extends Store {
         this.key = key;
     }
 }
-
+// SILVER CHALLENGE
 export class MessageStore extends Store {
     constructor(key) {
         super(localStorage);

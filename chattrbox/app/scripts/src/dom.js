@@ -12,6 +12,11 @@ export function promptForUsername() {
     return username.toLowerCase();
 }
 
+export function promptForChatRoom() {
+    let chatRoom = prompt('Which chat room would you like to join? You may choose between chat1 and chat2.');
+    return chatRoom.toLowerCase();
+}
+
 export class ChatForm {
     constructor(formSel, inputSel) {
         this.$form = $(formSel);

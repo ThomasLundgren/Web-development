@@ -4,8 +4,9 @@ const port = 3001;
 const ws = new WebSocketServer({
     port: port
 });
-const messages = [];
+const authMessages = [];
 const authUsers = new Set();
+
 const unauthUsers = new Set();
 // GOLD CHALLENGE: Chat Bot
 const chatBot = require('./chatbot');
@@ -22,16 +23,16 @@ ws.on('connection', socket => {
             }
             authUsers.add(socket);
             socket.send("Access granted. Welcome to the speakeasy!")
-            messages.forEach(msg => socket.send(msg));
+            authMessages.forEach(msg => socket.send(msg));
         }
         if (authUsers.has(socket)) {
-            messages.push(data);
+            authMessages.push(data);
 
             ws.clients.forEach(clientSocket => {
                 if (authUsers.has(clientSocket)) {
                     clientSocket.send(data); /* Comment this line before activating Bronze challenge
                     BRONZE CHALLENGE: Am I Repeating Myself?
-                     for (i = 0; i < messages.length; i++) {
+                     for (i = 0; i < authMessages.length; i++) {
                          clientSocket.send(data);
                     }
                     Uncomment this for-loop to run Bronze Challenge. */
