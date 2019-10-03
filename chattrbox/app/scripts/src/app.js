@@ -1,16 +1,24 @@
 import socket from './ws-client';
-import {ChatForm, ChatList} from './dom';
+import {ChatForm, ChatList, promptForUsername} from './dom';
+import {UserStore, MessageStore} from './storage';
 
 const FORM_SELECTOR = '[data-chat="chat-form"]';
 const INPUT_SELECTOR = '[data-chat="message-input"]';
 const LIST_SELECTOR = '[data-chat="message-list"]';
 
+const messageStore = new MessageStore('x-chattrbox/u');
+
+let userStore = new UserStore('x-chattrbox/u');
+let username = userStore.get();
+if (!username) {
+    username = promptForUsername();
+    userStore.set(username);
+}
+
 class ChatApp {
     constructor() {
         this.chatForm = new ChatForm(FORM_SELECTOR, INPUT_SELECTOR);
-        this.chatList = new ChatList(LIST_SELECTOR, 'wonderwoman');
-        console.log(this.chatList);
-
+        this.chatList = new ChatList(LIST_SELECTOR, username);
         socket.init('ws://localhost:3001');
         socket.registerOpenHandler(() => {
             this.chatForm.init(data => {
@@ -18,18 +26,21 @@ class ChatApp {
                 console.log("Data in this.chatform.init: " + data);
                 socket.sendMessage(message.serialize());
             });
+            this.chatList.init();
         });
         socket.registerMessageHandler((data) => {
             console.log(data);
             let message = new ChatMessage(data);
+            console.log(message.serialize());
             this.chatList.drawMessage(message.serialize());
+            messageStore.addMessage(message.serialize());
         });
     }
 }
 
 class ChatMessage {
     constructor(data) {
-        var {message: m, user: u = 'Batman', timestamp: t = (new Date()).getTime()} = data;
+        var {message: m, user: u = username, timestamp: t = (new Date()).getTime()} = data;
         this.message = m;
         this.user = u;
         this.timestamp = t;

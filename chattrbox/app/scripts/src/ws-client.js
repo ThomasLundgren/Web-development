@@ -15,15 +15,14 @@ function registerOpenHandler(handlerFunction) {
 function registerMessageHandler(handlerFunction) {
     socket.onmessage = e => {
         console.log('Message: ' + e.data);
+        let data = e.data;
         try {
-            let data = JSON.parse(e.data);
-            handlerFunction(data);
-        } catch (e) {
-            console.log("Exception in registerMessageHandler: " + e);
-            if (typeof data === "string") {
-                handlerFunction(data);
-            }
+            data = JSON.parse(e.data);
+        } catch(e) {
+            console.log("SyntaxError in registerMessageHandler: " + e.data);
+            data = e.data;
         }
+        handlerFunction(data);
     }
 }
 
