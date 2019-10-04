@@ -56,10 +56,10 @@ class ChatApp {
         });
         socket.registerMessageHandler((data) => {
             let message = new ChatMessage(data);
-            // if (message['chatRoom'] === chatRoom) {
-                this.chatList.drawMessage(message.serialize());
-            // }
-            messageStore.set(message.serialize());
+            this.chatList.drawMessage(message.serialize());
+            if (!message['message'].includes('joined the chat')) {
+                messageStore.set(message.serialize());
+            }
         });
     }
 }
