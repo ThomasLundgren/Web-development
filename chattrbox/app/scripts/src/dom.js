@@ -9,7 +9,12 @@ function createGravatarUrl(username) {
 
 export function promptForUsername() {
     let username = prompt('Enter a username');
-    return username.toLowerCase();
+    if (username) {
+        return username.toLowerCase();
+    } else {
+        return null;
+    }
+
 }
 
 export function promptForChatRoom() {

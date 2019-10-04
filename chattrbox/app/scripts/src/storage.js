@@ -33,7 +33,6 @@ export class MessageStore extends Store {
     }
 
     get() {
-        console.log(JSON.parse(super.get()));
         return JSON.parse(super.get());
     }
 
