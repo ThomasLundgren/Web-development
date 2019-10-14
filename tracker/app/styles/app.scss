@@ -1,4 +1,13 @@
-$bg-color: coral;
-html {
-    background: $bg-color;
+@import "bootstrap";
+
+// GOLD CHALLENGE: Customizing the NavBar
+
+$backg-color: rgb(230, 230, 255);
+$border-rad: 15px;
+$pad: 5px;
+
+.navbar {
+  background-color: $backg-color;
+  border-radius: $border-rad;
+  padding: $pad;
 }

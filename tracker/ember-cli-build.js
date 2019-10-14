@@ -1,19 +1,19 @@
-'use strict';
+"use strict";
 
-const EmberApp = require('ember-cli/lib/broccoli/ember-app');
+const EmberApp = require("ember-cli/lib/broccoli/ember-app");
 
 module.exports = function(defaults) {
-  var bootStrapPath = 'bower_components/bootstrap-sass/assets/';
+  var bootstrapPath = "bower_components/bootstrap-sass/assets/";
 
   let app = new EmberApp(defaults, {
     sassOptions: {
-      includePaths: [
-        bootStrapPath + 'stylesheets'
-      ]
+      includePaths: [bootstrapPath + "stylesheets"]
     }
   });
 
-  app.import(bootStrapPath + 'javascripts/bootstrap.js');
+  // BRONZE CHALLENGE: Limiting Imports
+  app.import(bootstrapPath + "javascripts/bootstrap/collapse.js");
+  app.import(bootstrapPath + "javascripts/bootstrap/transition.js");
 
   // Use `app.import` to add additional libraries to the generated
   // output files.
